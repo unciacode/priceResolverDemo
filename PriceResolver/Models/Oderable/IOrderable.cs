@@ -13,7 +13,7 @@ namespace PriceResolver {
         List<PriceBreak> PriceBreakList { set; get; }
 
         long QtyStock { set; get; }
-        long QtyRequested { set; get; }
+        long QtyRequested { set; get; }   //this isn't really needed here? just enforcing comformity for future needs
         long QtyMinimum { set; get; }
         long QtyInterval { set; get; }
 
