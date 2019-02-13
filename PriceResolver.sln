@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceResolver", "PriceResolver\PriceResolver.csproj", "{77B7C1FE-F5B4-46C8-9834-FF85D6EAFB4B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceResolverTests", "PriceResolverTests\PriceResolverTests.csproj", "{08A0A01A-38EB-48B7-8FE9-6F02A3741E1C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{77B7C1FE-F5B4-46C8-9834-FF85D6EAFB4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77B7C1FE-F5B4-46C8-9834-FF85D6EAFB4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77B7C1FE-F5B4-46C8-9834-FF85D6EAFB4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08A0A01A-38EB-48B7-8FE9-6F02A3741E1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08A0A01A-38EB-48B7-8FE9-6F02A3741E1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08A0A01A-38EB-48B7-8FE9-6F02A3741E1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08A0A01A-38EB-48B7-8FE9-6F02A3741E1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

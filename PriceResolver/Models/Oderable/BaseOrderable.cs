@@ -57,9 +57,7 @@ namespace PriceResolver.Models.Oderable {
             var cappedQty = tmpQty < QtyStock ? tmpQty : QtyStock;
 
             var tmpAdjustment = cappedQty % QtyInterval;
-            if(tmpAdjustment != 0)
-                returnedQty = cappedQty - tmpAdjustment;
-            
+            returnedQty = cappedQty - tmpAdjustment;
 
             return returnedQty.ZeroFloored();
         }
@@ -67,6 +65,7 @@ namespace PriceResolver.Models.Oderable {
         public PriceBreak GetNearestBreakForQty(long qty) {
             var tmpPB = PriceBreakList.Where(pb => pb.qty <= qty)
                                       .OrderByDescending(pb => pb.qty)
+                                      .DefaultIfEmpty(new PriceBreak())
                                       .FirstOrDefault();
             return tmpPB;
         }
@@ -78,7 +77,10 @@ namespace PriceResolver.Models.Oderable {
             if (tmpQty < QtyMinimum)
                 return returnedQty;
 
-            var intervalsNeeded = (int)Math.Ceiling(tmpQty / QtyInterval * 1D); //just a quirk of the funciton forcing whole numbers into a double 
+            if (tmpQty % QtyInterval == 0)
+                return 0;
+
+            var intervalsNeeded = (int)Math.Ceiling(tmpQty / QtyInterval * 1D) + 1; //just a quirk of the funciton forcing whole numbers into a double, alwasy want the next interval up
 
             returnedQty = (intervalsNeeded * QtyInterval) - tmpQty;
 
