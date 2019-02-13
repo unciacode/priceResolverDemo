@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PriceResolver.Models;
 using PriceResolver.Models.Oderable;
 
-namespace PriceResolverTests {
+namespace PriceResolverTests.Eval_BaseOrderable {
     [TestClass]
     public class BaseOrderable_Tests {
 
@@ -16,8 +16,7 @@ namespace PriceResolverTests {
         static List<int> randTestInts_neg = new List<int>();
         static List<int> allRandIntRanges = new List<int>();
 
-        static BaseOrderable testTarget; 
-
+        static BaseOrderable testTarget;
 
         [ClassInitialize]
         public static void setup(TestContext context) {

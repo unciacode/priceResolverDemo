@@ -9,8 +9,8 @@ namespace PriceResolver.Logic {
         public long TotalRequestedQuantity { set; get; } = 0L;
         private long _RemainderQuantityBucket = 0L;
 
-        private List<IOrderable> _OriginalParts;
-        private List<IOrderable> _WorkingPartsBucket;
+        private List<BaseOrderable> _OriginalParts;
+        private List<BaseOrderable> _WorkingPartsBucket;
 
         public MainResolver(long qty) {
             TotalRequestedQuantity = qty;
@@ -20,19 +20,22 @@ namespace PriceResolver.Logic {
         //not the most elegant, but it gets the job done fast and well;
         public void LoadParts(List<BaseOrderable> toLoad) {
             if (toLoad.Any())
-                _OriginalParts = toLoad.AsParallel().Select(tl => tl as IOrderable).ToList();
-            
+                _OriginalParts = toLoad;
+            else
+                _OriginalParts = new List<BaseOrderable>();
         }
         public void LoadParts(List<OrderablePart> toLoad) {
             if (toLoad.Any())
-                _OriginalParts = toLoad.AsParallel().Select(tl => tl as IOrderable).ToList();
+                _OriginalParts = toLoad.AsParallel().Select(tl => (BaseOrderable)tl).ToList();
+            else
+                _OriginalParts = new List<BaseOrderable>();
             
         }
 
         public ResolverResult RunLogic() {
             ResolverResult returnedResult = new ResolverResult();
             List<ResolverMatrix> selectedForResults = new List<ResolverMatrix>();
-            _WorkingPartsBucket = new List<IOrderable>(_OriginalParts); //If we don't init a new list, these can be linked and will really not work as intended
+            _WorkingPartsBucket = new List<BaseOrderable>(_OriginalParts); //If we don't init a new list, these can be linked and will really not work as intended
 
             do {
                 /* 
@@ -68,6 +71,7 @@ namespace PriceResolver.Logic {
                  * -The only spare we're going to be able to take from are parts with a minim of 1
                  */
                 bool isAdjustmentPossible = false;
+
                 ResolverMatrix bestResolutionTarget = _WorkingPartsBucket.Select(p => new ResolverMatrix(p, _RemainderQuantityBucket))
                                                            .OrderBy(p => p.MinAdjustment)
                                                            .FirstOrDefault();
@@ -99,7 +103,7 @@ namespace PriceResolver.Logic {
                         //we're going to recreate our object with it's new adjusted quantity
 
                         long newQty = bestDonorCandidate.MaxOrderable - miniumAdjustmentNeeded;
-                        IOrderable originalDonorData = _OriginalParts.Single(p => p.ID == bestDonorCandidate.ID);
+                        BaseOrderable originalDonorData = _OriginalParts.Single(p => p.ID == bestDonorCandidate.ID);
 
                         selectedForResults.Add(new ResolverMatrix(originalDonorData, newQty));
                     }
@@ -113,30 +117,5 @@ namespace PriceResolver.Logic {
 
             return returnedResult;
         }
-
-        private class ResolverMatrix {
-            public string ID { set; get; }
-
-            public long MaxOrderable { set; get; }
-            public long MinAdjustment { set; get; }
-
-            public bool isMOQ1 { set; get; }
-
-            public double UnitCost { set; get; }
-            public double TotalCost { set; get; }
-
-            public ResolverMatrix(IOrderable part, long qty) {
-                ID = part.ID;
-
-                MaxOrderable = part.GetMaxOrderableQty(qty);
-                MinAdjustment = part.GetMinimumAmountToFulfillInterval(qty);
-
-                UnitCost = part.GetUnitPriceForQty(MaxOrderable);
-                TotalCost = UnitCost * MaxOrderable;
-
-                isMOQ1 = part.QtyInterval == 1;
-            }
-        }
-
     }
 }

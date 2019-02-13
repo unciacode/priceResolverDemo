@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PriceResolver.Models;
 using PriceResolver.Models.Oderable;
 
-namespace PriceResolverTests {
+namespace PriceResolverTests.Eval_BaseOrderable {
     [TestClass]
     public class BaseOrderable_BlankTests {
 

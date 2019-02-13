@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 
 namespace PriceResolver.Models {
-    class ResolverResult {
+    public class ResolverResult {
         public long QtyTotalOrdered { set; get; } = 0L;
         public long QtyRemainder { set; get; } = 0L;
         public bool isCompleteOrder => QtyRemainder > 0;
