@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using PriceResolver.Helpers;
 
 namespace PriceResolver.Models.Oderable {
-    public class BaseOrderable : IOrderable {
+    public class BaseOrderable : IOrderable { 
 
         private string _ID = null;
         public string ID {
@@ -23,33 +23,37 @@ namespace PriceResolver.Models.Oderable {
         public List<PriceBreak> PriceBreakList { get; set; } = new List<PriceBreak>();
 
         public long QtyStock { get; set; } = 0L;
-        public long QtyRequested { get; set; } = 0L;
+
+        public long QtyRequested { get; set; } = 0L;  
         private long _QtyOrderable => GetMaxOrderableQty(QtyRequested);
+        //We won't be using QtyRequested in this current iteration. 
+        //All functions using QtyRequested are just forward-functionality and normally would be flagged for removal during planning if the next set of features doesn't need it
 
         public long QtyMinimum { get; set; } = 1L;
         public long QtyInterval { get; set; } = 1L;
 
 
-        public BaseOrderable() { }  //always include, even if unused
+        public BaseOrderable() { }  //always include constructor, even if unused
 
-        public double GetUnitPriceForQty(long? qty = null) { 
-            var tmpQty = qty ?? _QtyOrderable;
+
+        public double GetUnitPriceForQty(long? qty = null) {
+            long tmpQty = qty ?? _QtyOrderable;
             PriceBreak tmpBreak = GetNearestBreakForQty(tmpQty);
 
             return tmpBreak.unitPrice;
         }
 
         public double GetCurrentReqestedUnitPrice() => GetUnitPriceForQty(); 
-        /* Above is what I call a pass-through: A function that only makes a single function call. They can be minimally useful visually as hints but,
+        /* Above is what I call a pass-through: A function that only makes a single function call. They can be slightly useful visually as hints but,
            I normally try to avoid them as usually they tend to clutter, and the ROI is pretty low in practice */
         
         public long GetMaxOrderableQty(long? qty = null) {
+            long tmpQty = qty ?? QtyRequested;
             long returnedQty = 0;
 
-            if (qty < QtyMinimum)
+            if (tmpQty < QtyMinimum)
                 return returnedQty;
 
-            var tmpQty = qty ?? QtyRequested;
             var cappedQty = tmpQty < QtyStock ? tmpQty : QtyStock;
 
             var tmpAdjustment = cappedQty % QtyInterval;
@@ -60,11 +64,25 @@ namespace PriceResolver.Models.Oderable {
             return returnedQty.ZeroFloored();
         }
 
-        private PriceBreak GetNearestBreakForQty(long qty) {
+        public PriceBreak GetNearestBreakForQty(long qty) {
             var tmpPB = PriceBreakList.Where(pb => pb.qty <= qty)
                                       .OrderByDescending(pb => pb.qty)
                                       .FirstOrDefault();
             return tmpPB;
+        }
+
+        public long GetMinimumAmountToFulfillInterval(long? qty) {
+            long tmpQty = qty ?? QtyRequested;
+            long returnedQty = QtyMinimum;
+
+            if (tmpQty < QtyMinimum)
+                return returnedQty;
+
+            var intervalsNeeded = (int)Math.Ceiling(tmpQty / QtyInterval * 1D); //just a quirk of the funciton forcing whole numbers into a double 
+
+            returnedQty = (intervalsNeeded * QtyInterval) - tmpQty;
+
+            return returnedQty;
         }
 
     }

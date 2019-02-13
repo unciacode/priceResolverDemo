@@ -10,13 +10,7 @@ namespace PriceResolver.Models {
      * I like to avoid having hundreds of small 10-line (stub) files. Bundling smaller, close-knit objects into a single file drasitcally 
      * reduces the need to change visual context and increases readability. 
      */
-
-    interface IBasicPriceBreak {
-        long qty { set; get; }
-        double unitPrice { set; get; }
-    }
-
-    public class BasicPriceBreak : IBasicPriceBreak {
+    public class BasicPriceBreak {
         public long qty { set; get; }
         public double unitPrice { set; get; }
 

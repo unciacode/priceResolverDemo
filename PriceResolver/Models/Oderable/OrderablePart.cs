@@ -28,6 +28,10 @@ namespace PriceResolver.Models.Oderable {
 
         public OrderablePart(long stock, long minterval) : base() {
             QtyStock = stock;
+
+            if (minterval <= 0)
+                minterval = 1;
+
             QtyMinimum = minterval;
             QtyInterval = minterval;
 

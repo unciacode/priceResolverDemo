@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace PriceResolver {
     class Program {
+
         static void Main(string[] args) {
             var Part = new OrderablePart();
         }
