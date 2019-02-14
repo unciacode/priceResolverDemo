@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Database\BasicMongoProvider.cs" />
     <Compile Include="Database\IOrderableProvider.cs" />
+    <Compile Include="Database\MongoDBObj.cs" />
     <Compile Include="Database\SingleTonMongoConnection.cs" />
     <Compile Include="Helpers\MongoIds.cs" />
     <Compile Include="Helpers\NumberHelper.cs" />

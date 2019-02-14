@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using PriceResolver.Helpers;
 
 namespace PriceResolver.Models.Oderable {
-    public class BaseOrderable : IOrderable { 
+    public class BaseOrderable { 
 
         private string _ID = null;
         public string ID {
