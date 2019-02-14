@@ -68,8 +68,8 @@
     <Compile Include="Database\SingleTonMongoConnection.cs" />
     <Compile Include="Helpers\MongoIds.cs" />
     <Compile Include="Helpers\NumberHelper.cs" />
+    <Compile Include="Logic\CheapestResolver.cs" />
     <Compile Include="Logic\IResolver.cs" />
-    <Compile Include="Logic\MainResolver.cs" />
     <Compile Include="Models\Oderable\BaseOrderable.cs" />
     <Compile Include="Models\Oderable\OrderablePart.cs" />
     <Compile Include="Models\PriceBreak.cs" />
