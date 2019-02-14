@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace PriceResolver.Logic {
     public interface IResolver {
-        IOrderableProvider dataProvider { set; get; }
+        IOrderableProvider DataProvider { set; get; }
 
         long TotalRequestedQuantity { set; get; }
         List<BaseOrderable> PartsListLibrary { set; get; }
@@ -23,8 +23,9 @@ namespace PriceResolver.Logic {
 
         ResolverResult RunLogic();
 
+        bool isLeftoversRequired { set; get; }
+
         void ProcessMain();
         void ProcessLeftovers();
-
     }
 }
